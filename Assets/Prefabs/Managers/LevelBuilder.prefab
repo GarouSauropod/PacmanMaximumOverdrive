@@ -48,7 +48,13 @@ MonoBehaviour:
     name: Barrier
     physicalObject: {fileID: 8220766898792861779, guid: 6d48d8d82f980aa4ab751ee878eba0a5,
       type: 3}
-    positionOffset: {x: 0, y: 0.5, z: 0}
+    positionOffset: {x: 0, y: 0, z: 0}
     impassableSquares:
     - x: 0
       y: 0
+  foodPellet:
+    name: FoodPellet
+    physicalObject: {fileID: 4796450817670091341, guid: 058a03d88e62f6b498d5eaffe5910f96,
+      type: 3}
+    positionOffset: {x: 0, y: 0.5, z: 0}
+    impassableSquares: []

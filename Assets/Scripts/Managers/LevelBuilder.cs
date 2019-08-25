@@ -32,6 +32,8 @@ public class LevelBuilder : MonoBehaviour
     BoardManager boardManager;
     [SerializeField]
     LevelProp barrier;
+    [SerializeField]
+    LevelProp foodPellet;
 
     private LevelRepository levelRepository = new LevelRepository();
 
@@ -62,6 +64,8 @@ public class LevelBuilder : MonoBehaviour
                 case ';': x = 0; y += 1;
                     break;
                 case '□': boardManager.AddPropToGrid(barrier, new IntVector2(x, y)); x += 1;
+                    break;
+                case '*': boardManager.AddPropToGrid(foodPellet, new IntVector2(x, y)); x += 1;
                     break;
                 default:
                     break;

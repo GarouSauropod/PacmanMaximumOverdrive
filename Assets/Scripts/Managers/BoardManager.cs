@@ -34,6 +34,11 @@ public class BoardManager : MonoBehaviour
     public int squareSize = 1;
     private Vector3 gridOrigin = Vector3.zero;
 
+    [SerializeField]
+    private Transform environment;
+    [SerializeField]
+    private Transform dynamicObjects;
+
     private List<GameObject> instantiatedLevelPieces = new List<GameObject>();
 
     void Awake()
@@ -66,7 +71,7 @@ public class BoardManager : MonoBehaviour
             grid.squareArray[_position.x + impassablePosition.x, _position.y + impassablePosition.y].state = Square.State.Impassable;
         }
 
-        GameObject element = Instantiate(_prop.physicalObject, referenceSquare.position + _prop.positionOffset, Quaternion.identity);
+        GameObject element = Instantiate(_prop.physicalObject, referenceSquare.position + _prop.positionOffset, Quaternion.identity, environment);
         instantiatedLevelPieces.Add(element);
     }
 
