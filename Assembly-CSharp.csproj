@@ -53,6 +53,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\LevelDesignProps.cs" />
+     <Compile Include="Assets\Scripts\Managers\BoardManager.cs" />
+     <Compile Include="Assets\Scripts\Managers\LevelBuilder.cs" />
+     <Compile Include="Assets\Scripts\Utilities\DataUtility.cs" />
      <Compile Include="Assets\Scripts\Utilities\GridUtilities.cs" />
  <Reference Include="Unity.TextMeshPro.Editor">
  <HintPath>C:/Users/Alex/PacmanMaximumOverdrive/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
