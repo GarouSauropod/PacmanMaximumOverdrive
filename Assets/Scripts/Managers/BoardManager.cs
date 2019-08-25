@@ -38,7 +38,7 @@ public class BoardManager : MonoBehaviour
 
     void Awake()
     {
-        PopulateGrid(new Vector3(gridOrigin.x + 1, gridOrigin.y, gridOrigin.z + 1), 41, 23);
+        PopulateGrid(new Vector3(gridOrigin.x + 1, gridOrigin.y, gridOrigin.z + 1), 39, 22);
         grid.AddAllNeighbors();
     }
 
