@@ -35,6 +35,11 @@ public class LevelBuilder : MonoBehaviour
     [SerializeField]
     LevelProp foodPellet;
 
+    [SerializeField]
+    GameObject pacman;
+    [SerializeField]
+    GameObject blinky;
+
     private LevelRepository levelRepository = new LevelRepository();
 
     void Start()
@@ -66,6 +71,10 @@ public class LevelBuilder : MonoBehaviour
                 case '□': boardManager.AddPropToGrid(barrier, new IntVector2(x, y)); x += 1;
                     break;
                 case '*': boardManager.AddPropToGrid(foodPellet, new IntVector2(x, y)); x += 1;
+                    break;
+                case '0': boardManager.AddPacmanToGrid(pacman, new IntVector2(x, y)); x += 1;
+                    break;
+                case '1': boardManager.AddGhostToGrid(blinky, new IntVector2(x, y)); x += 1;
                     break;
                 default:
                     break;

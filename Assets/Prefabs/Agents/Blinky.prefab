@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7158016702646172158}
   - component: {fileID: 7386937564171960001}
   - component: {fileID: 7125097620279881058}
+  - component: {fileID: 8534458065725513762}
   m_Layer: 0
   m_Name: Blinky
   m_TagString: Untagged
@@ -28,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 2487013316539568786}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 20, y: 0.5, z: 10}
-  m_LocalScale: {x: 1, y: 0.5, z: 1}
+  m_LocalScale: {x: 0.9, y: 0.45, z: 0.9}
   m_Children:
   - {fileID: 953069005789998990}
   m_Father: {fileID: 0}
@@ -93,6 +94,18 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &8534458065725513762
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2487013316539568786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 203e1762a50fc4a42a66e864c39e7a6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &9034148410982482945
 GameObject:
   m_ObjectHideFlags: 0

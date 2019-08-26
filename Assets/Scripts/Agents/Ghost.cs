@@ -7,16 +7,50 @@ public class Ghost : MonoBehaviour
 {
     bool inHoldingPen;
     Path path;
+    Square currentSquare;
+    Square targetSquare;
+    Square primeObjective;
 
-    void Awake()
+    float speed = 2.5f;
+    float step;
+
+    public void Initialize(Square _initialSquare)
     {
-        
+        currentSquare = _initialSquare;
+        targetSquare = _initialSquare;
+        CalculatePath(currentSquare, targetSquare);
     }
 
     void Update()
     {
-        //Recalculate path here
+        if (path.squareList.Count > 0)
+        {
+            targetSquare = path.squareList[0];
+        }
 
-        //transform.Translate();
+        step = speed * Time.deltaTime;
+        transform.position = Vector3.MoveTowards(transform.position, new Vector3(targetSquare.position.x, transform.position.y, targetSquare.position.z), step);
+
+        if (HasReachedCenterSquare(targetSquare))
+        {
+            currentSquare = targetSquare;
+            primeObjective = BoardManager.instance.GetPacmanSquare();
+            CalculatePath(currentSquare, primeObjective);
+        }
     }
+
+    public bool HasReachedCenterSquare(Square _targetSquare)
+    {
+        if (Mathf.Abs(transform.position.x - _targetSquare.position.x) <= 0.05f && Mathf.Abs(transform.position.z - _targetSquare.position.z) <= 0.05f)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public void CalculatePath(Square _start, Square _destination)
+    {
+        path = PathFinder.Instance.FindPath(_start, _destination);
+    }
+
 }

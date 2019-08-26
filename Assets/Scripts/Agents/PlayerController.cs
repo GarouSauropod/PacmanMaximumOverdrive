@@ -15,6 +15,11 @@ public class PlayerController : MonoBehaviour
 
     private Square currentTile;
     private float angleBetween = 0.0f;
+
+    public void Initialize(Square _initialSquare)
+    {
+        currentTile = _initialSquare;
+    }
 	
 	void Update()
     {
@@ -29,11 +34,15 @@ public class PlayerController : MonoBehaviour
 
     public void TurnTowardsDirection(Vector3 moveDirection)
     {
-        //Refine the turning at some point so it turns more slowly in the beginning and faster once the movement is started
         moveDirection.Normalize();
         Vector3 currentDirection = transform.forward;
         Vector3 newDir = Vector3.RotateTowards(currentDirection, moveDirection, 0.03f, 0f);
         transform.rotation = Quaternion.LookRotation(newDir);
+    }
+
+    public Square GetCurrentSquare()
+    {
+        return currentTile;
     }
 
 }

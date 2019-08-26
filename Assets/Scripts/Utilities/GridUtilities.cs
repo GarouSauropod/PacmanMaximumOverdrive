@@ -50,12 +50,67 @@ namespace GridUtilities
                 }
             }
         }
+    }
 
-        public Path FindPath()
+    //Add travel nodes for the PathFinder
+
+    public class PathFinder
+    {
+        private static PathFinder instance = null;
+
+        public static PathFinder Instance
         {
-            Path path = new Path();
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new PathFinder();
+                }
+                return instance;
+            }
+        }
 
-            //Do basic pathfinding here
+        public Path FindPath(Square _start, Square _destination)
+        {
+            //I call this the lazy* algorithm cause I'm too lazy to implement the actual A*
+            Path path = new Path();
+            Square currentSquare = _start;
+
+            int deltaX = (int)(_destination.position.x - currentSquare.position.x);
+            int deltaZ = (int)(_destination.position.z - currentSquare.position.z);
+
+            while (Mathf.Abs(deltaX) > 0 || Mathf.Abs(deltaZ) > 0)
+            {
+                if (Mathf.Abs(deltaX) >= Mathf.Abs(deltaZ))
+                {
+                    if (deltaX > 0)
+                    {
+                        path.AddSquare(currentSquare.rightNeighbor);
+                        currentSquare = currentSquare.rightNeighbor;
+                    }
+                    else
+                    {
+                        path.AddSquare(currentSquare.leftNeighbor);
+                        currentSquare = currentSquare.leftNeighbor;
+                    }
+                }
+                else
+                {
+                    if (deltaZ > 0)
+                    {
+                        path.AddSquare(currentSquare.topNeighbor);
+                        currentSquare = currentSquare.topNeighbor;
+                    }
+                    else
+                    {
+                        path.AddSquare(currentSquare.bottomNeighbor);
+                        currentSquare = currentSquare.bottomNeighbor;
+                    }
+                }
+
+                deltaX = (int)(_destination.position.x - currentSquare.position.x);
+                deltaZ = (int)(_destination.position.z - currentSquare.position.z);
+            }
 
             return path;
         }
@@ -94,7 +149,7 @@ namespace GridUtilities
                         "□*□□□□*□□....,....,□...,....,.□□*□□□□*□;" +
                         "□******□□....,....,□...,....,.□□******□;" +
                         "□□□□□□*□□□□□□□....,□...,.□□□□□□□*□□□□□□;" +
-                        "□...,□*□□....,....,....,....,.□□*□...,□;" +
+                        "□...,□*□□0...,....,....,....,1□□*□...,□;" +
                         "□□□□□□*□□.□.□□□□□.,...□□□□□.□.□□*□□□□□□;" +
                         "□...,.*.,.□.□,....,....,..□.□...*,...,□;" +
                         "□□□□□□*□□.□.□□□□□□□□□□□□□□□.□.□□*□□□□□□;" +

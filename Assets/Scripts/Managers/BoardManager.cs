@@ -40,6 +40,8 @@ public class BoardManager : MonoBehaviour
     private Transform dynamicObjects;
 
     private List<GameObject> instantiatedLevelPieces = new List<GameObject>();
+    private GameObject pacman;
+    private GameObject blinky;
 
     void Awake()
     {
@@ -73,6 +75,25 @@ public class BoardManager : MonoBehaviour
 
         GameObject element = Instantiate(_prop.physicalObject, referenceSquare.position + _prop.positionOffset, Quaternion.identity, environment);
         instantiatedLevelPieces.Add(element);
+    }
+
+    public void AddPacmanToGrid(GameObject _pacman, IntVector2 _position)
+    {
+        Square referenceSquare = grid.squareArray[_position.x, _position.y];
+        pacman = Instantiate(_pacman, referenceSquare.position + new Vector3(0f, 0.5f, 0f), Quaternion.identity, dynamicObjects);
+        pacman.GetComponent<PlayerController>().Initialize(referenceSquare);
+    }
+
+    public void AddGhostToGrid(GameObject _blinky, IntVector2 _position)
+    {
+        Square referenceSquare = grid.squareArray[_position.x, _position.y];
+        blinky = Instantiate(_blinky, referenceSquare.position + new Vector3(0f, 0.5f, 0f), Quaternion.identity, dynamicObjects);
+        blinky.GetComponent<Ghost>().Initialize(referenceSquare);
+    }
+
+    public Square GetPacmanSquare()
+    {
+        return pacman.GetComponent<PlayerController>().GetCurrentSquare();
     }
 
 }
