@@ -55,6 +55,15 @@ namespace GridUtilities
         {
             Path path = new Path();
 
+            //Do basic pathfinding here
+
+            return path;
+        }
+
+        public Path FindPathAStar()
+        {
+            Path path = new Path();
+
             //Do A* here
 
             return path;
