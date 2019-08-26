@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using DataUtility;
 
 
 namespace GridUtilities
@@ -15,6 +16,7 @@ namespace GridUtilities
         public State state;
 
         public Vector3 position;
+        public IntVector2 gridCoordinates;
         public Square topNeighbor;
         public Square bottomNeighbor;
         public Square leftNeighbor;
@@ -24,6 +26,22 @@ namespace GridUtilities
     public class LevelGrid
     {
         public Square[,] squareArray;
+
+        public void Populate(Vector3 _startingPoint, int _width, int _height, int _squareSize)
+        {
+            squareArray = new Square[_width, _height];
+
+            for (int i = 0; i < _width; i++)
+            {
+                for (int j = 0; j < _height; j++)
+                {
+                    squareArray[i, j] = new Square();
+                    squareArray[i, j].position = new Vector3(i * _squareSize + _startingPoint.x, 0 + _startingPoint.y, j * _squareSize + _startingPoint.z);
+                    squareArray[i, j].gridCoordinates = new IntVector2(i, j);
+                    squareArray[i, j].state = Square.State.Free;
+                }
+            }
+        }
 
         public void AddAllNeighbors()
         {
@@ -52,7 +70,19 @@ namespace GridUtilities
         }
     }
 
-    //Add travel nodes for the PathFinder
+    /*
+    public class TravelNode
+    {
+        public bool isFree;
+        public Vector3 position;
+
+        public TravelNode(bool _isFree, Vector3 _position)
+        {
+            isFree = _isFree;
+            position = _position;
+        }
+    }
+    */
 
     public class PathFinder
     {
@@ -72,7 +102,7 @@ namespace GridUtilities
 
         public Path FindPath(Square _start, Square _destination)
         {
-            //I call this the lazy* algorithm cause I'm too lazy to implement the actual A*
+            //This can be used for a ghost that goes through walls
             Path path = new Path();
             Square currentSquare = _start;
 
@@ -115,11 +145,21 @@ namespace GridUtilities
             return path;
         }
 
-        public Path FindPathAStar()
+        public Path FindPathAStar(Grid _grid, Square _start, Square _destination)
         {
+            //Do A* here
             Path path = new Path();
 
-            //Do A* here
+            List<Square> openList = new List<Square>();
+            HashSet<Square> closedSet = new HashSet<Square>();
+            openList.Add(_start);
+
+            /*
+            while (openList.Count > 0)
+            {
+
+            }
+            */
 
             return path;
         }

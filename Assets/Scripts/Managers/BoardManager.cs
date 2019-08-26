@@ -32,6 +32,10 @@ public class BoardManager : MonoBehaviour
     public LevelGrid grid = new LevelGrid();
     [NonSerialized]
     public int squareSize = 1;
+    [NonSerialized]
+    public int width = 39;
+    [NonSerialized]
+    public int height = 22;
     private Vector3 gridOrigin = Vector3.zero;
 
     [SerializeField]
@@ -45,23 +49,8 @@ public class BoardManager : MonoBehaviour
 
     void Awake()
     {
-        PopulateGrid(new Vector3(gridOrigin.x + 1, gridOrigin.y, gridOrigin.z + 1), 39, 22);
+        grid.Populate(new Vector3(gridOrigin.x + 1, gridOrigin.y, gridOrigin.z + 1), width, height, squareSize);
         grid.AddAllNeighbors();
-    }
-
-    public void PopulateGrid(Vector3 _startingPoint, int _width, int _height)
-    {
-        grid.squareArray = new Square[_width, _height];
-
-        for (int i = 0; i < _width; i++)
-        {
-            for (int j = 0; j < _height; j++)
-            {
-                grid.squareArray[i, j] = new Square();
-                grid.squareArray[i, j].position = new Vector3(i*squareSize + _startingPoint.x, 0 + _startingPoint.y, j*squareSize + _startingPoint.z);
-                grid.squareArray[i, j].state = Square.State.Free;
-            }
-        }
     }
 
     public void AddPropToGrid(LevelProp _prop, IntVector2 _position)
