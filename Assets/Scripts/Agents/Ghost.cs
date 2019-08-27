@@ -50,7 +50,8 @@ public class Ghost : MonoBehaviour
 
     public void CalculatePath(Square _start, Square _destination)
     {
-        path = PathFinder.Instance.FindPath(_start, _destination);
+        //path = PathFinder.Instance.FindPath(_start, _destination);
+        path = PathFinder.Instance.FindPathAStar(BoardManager.instance.grid ,_start, _destination);
     }
 
 }

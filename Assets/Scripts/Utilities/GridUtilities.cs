@@ -17,10 +17,20 @@ namespace GridUtilities
 
         public Vector3 position;
         public IntVector2 gridCoordinates;
+
         public Square topNeighbor;
         public Square bottomNeighbor;
         public Square leftNeighbor;
         public Square rightNeighbor;
+
+        public int gCost;
+        public int hCost;
+        public Square parent;
+
+        public int fCost
+        {
+            get { return gCost + hCost; }
+        }
     }
 
     public class LevelGrid
@@ -69,20 +79,6 @@ namespace GridUtilities
             }
         }
     }
-
-    /*
-    public class TravelNode
-    {
-        public bool isFree;
-        public Vector3 position;
-
-        public TravelNode(bool _isFree, Vector3 _position)
-        {
-            isFree = _isFree;
-            position = _position;
-        }
-    }
-    */
 
     public class PathFinder
     {
@@ -145,23 +141,118 @@ namespace GridUtilities
             return path;
         }
 
-        public Path FindPathAStar(Grid _grid, Square _start, Square _destination)
+        public Path FindPathAStar(LevelGrid _grid, Square _start, Square _destination)
         {
-            //Do A* here
             Path path = new Path();
 
             List<Square> openList = new List<Square>();
             HashSet<Square> closedSet = new HashSet<Square>();
             openList.Add(_start);
 
-            /*
             while (openList.Count > 0)
             {
+                Square currentSquare = openList[0];
+
+                for (int i = 1; i < openList.Count; i++)
+                {
+                    if (openList[i].fCost <= currentSquare.fCost && openList[i].hCost < currentSquare.hCost)
+                    {
+                        currentSquare = openList[i];
+                    }
+                }
+
+                openList.Remove(currentSquare);
+                closedSet.Add(currentSquare);
+
+                if (currentSquare == _destination)
+                {
+                    path = RetracePath(_start, _destination);
+                    return path;
+                }
+
+                //Lots of copy paste here, refactor that eventually
+                if (currentSquare.leftNeighbor != null && currentSquare.leftNeighbor.state == Square.State.Free && !closedSet.Contains(currentSquare.leftNeighbor))
+                {
+                    Square neighbor = currentSquare.leftNeighbor;
+                    int newMoveCostToNeighbor = currentSquare.gCost + GetDistance(currentSquare, neighbor);
+                    if (newMoveCostToNeighbor < neighbor.gCost || !openList.Contains(neighbor))
+                    {
+                        Debug.Log("newMoveCostToNeighbor < neighbor.gCost");
+                        neighbor.gCost = newMoveCostToNeighbor;
+                        neighbor.hCost = GetDistance(neighbor, _destination);
+                        neighbor.parent = currentSquare;
+
+                        if (!openList.Contains(neighbor)) { openList.Add(neighbor); }
+                    }
+                }
+                if (currentSquare.topNeighbor != null && currentSquare.topNeighbor.state == Square.State.Free && !closedSet.Contains(currentSquare.topNeighbor))
+                {
+                    Square neighbor = currentSquare.topNeighbor;
+                    int newMoveCostToNeighbor = currentSquare.gCost + GetDistance(currentSquare, neighbor);
+                    if (newMoveCostToNeighbor < neighbor.gCost || !openList.Contains(neighbor))
+                    {
+                        neighbor.gCost = newMoveCostToNeighbor;
+                        neighbor.hCost = GetDistance(neighbor, _destination);
+                        neighbor.parent = currentSquare;
+
+                        if (!openList.Contains(neighbor)) { openList.Add(neighbor); }
+                    }
+                }
+                if (currentSquare.rightNeighbor != null && currentSquare.rightNeighbor.state == Square.State.Free && !closedSet.Contains(currentSquare.rightNeighbor))
+                {
+                    Square neighbor = currentSquare.rightNeighbor;
+                    int newMoveCostToNeighbor = currentSquare.gCost + GetDistance(currentSquare, neighbor);
+                    if (newMoveCostToNeighbor < neighbor.gCost || !openList.Contains(neighbor))
+                    {
+                        neighbor.gCost = newMoveCostToNeighbor;
+                        neighbor.hCost = GetDistance(neighbor, _destination);
+                        neighbor.parent = currentSquare;
+
+                        if (!openList.Contains(neighbor)) { openList.Add(neighbor); }
+                    }
+                }
+                if (currentSquare.bottomNeighbor != null && currentSquare.bottomNeighbor.state == Square.State.Free && !closedSet.Contains(currentSquare.bottomNeighbor))
+                {
+                    Square neighbor = currentSquare.bottomNeighbor;
+                    int newMoveCostToNeighbor = currentSquare.gCost + GetDistance(currentSquare, neighbor);
+                    if (newMoveCostToNeighbor < neighbor.gCost || !openList.Contains(neighbor))
+                    {
+                        neighbor.gCost = newMoveCostToNeighbor;
+                        neighbor.hCost = GetDistance(neighbor, _destination);
+                        neighbor.parent = currentSquare;
+
+                        if (!openList.Contains(neighbor)) { openList.Add(neighbor); }
+                    }
+                }
 
             }
-            */
 
+            //would return an empty path if pathing failed
+            Debug.Log("pathfinding failed");
             return path;
+        }
+
+        private Path RetracePath(Square _start, Square _destination)
+        {
+            Path path = new Path();
+            Square currentSquare = _destination;
+
+            while (currentSquare != _start)
+            {
+                path.AddSquare(currentSquare);
+                currentSquare = currentSquare.parent;
+            }
+
+            path.Reverse();
+            return path;
+        }
+
+        private int GetDistance(Square _squareFrom, Square _squareTo)
+        {
+            int distanceX = Mathf.Abs(_squareFrom.gridCoordinates.x - _squareTo.gridCoordinates.x);
+            int distanceY = Mathf.Abs(_squareFrom.gridCoordinates.y - _squareTo.gridCoordinates.y);
+            int distance = distanceX + distanceY;
+            return distance;
         }
     }
 
@@ -172,6 +263,11 @@ namespace GridUtilities
         public void AddSquare(Square square)
         {
             squareList.Add(square);
+        }
+
+        public void Reverse()
+        {
+            squareList.Reverse();
         }
     }
 
