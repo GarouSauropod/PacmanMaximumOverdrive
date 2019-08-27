@@ -9,6 +9,8 @@ public class HUDMenu : MonoBehaviour
     [SerializeField]
     GameObject gameOverPanel;
     [SerializeField]
+    Text gameOverText;
+    [SerializeField]
     Text scoreText;
     [SerializeField]
     GameObject countdownPanel;
@@ -23,6 +25,7 @@ public class HUDMenu : MonoBehaviour
         scoreText.text = "SCORE: " + score.ToString();
 
         GameEventManager.StartListening("onPlayerGameOver", ConjureGameOverPanel);
+        GameEventManager.StartListening("onPlayerWins", ConjureVictoryPanel);
         GameEventManager.StartListening("onPelletEaten", UpdateScore);
         GameEventManager.StartListening("onCountdownUpdated", UpdateCountdownText);
         GameEventManager.StartListening("onGameCountdownEnded", VanishCountdownPanel);
@@ -35,6 +38,13 @@ public class HUDMenu : MonoBehaviour
 
     private void ConjureGameOverPanel(object _arg)
     {
+        gameOverText.text = "GAME OVER";
+        gameOverPanel.SetActive(true);
+    }
+
+    private void ConjureVictoryPanel(object _arg)
+    {
+        gameOverText.text = "VICTORY!";
         gameOverPanel.SetActive(true);
     }
 
