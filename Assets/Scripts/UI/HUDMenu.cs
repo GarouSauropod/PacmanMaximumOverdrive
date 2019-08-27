@@ -10,6 +10,10 @@ public class HUDMenu : MonoBehaviour
     GameObject gameOverPanel;
     [SerializeField]
     Text scoreText;
+    [SerializeField]
+    GameObject countdownPanel;
+    [SerializeField]
+    Text countdownText;
 
     int score;
 
@@ -20,6 +24,8 @@ public class HUDMenu : MonoBehaviour
 
         GameEventManager.StartListening("onPlayerGameOver", ConjureGameOverPanel);
         GameEventManager.StartListening("onPelletEaten", UpdateScore);
+        GameEventManager.StartListening("onCountdownUpdated", UpdateCountdownText);
+        GameEventManager.StartListening("onGameCountdownEnded", VanishCountdownPanel);
     }
 
     void Update()
@@ -36,5 +42,24 @@ public class HUDMenu : MonoBehaviour
     {
         score += 10;
         scoreText.text = "SCORE: " + score.ToString();
+    }
+
+    private void UpdateCountdownText(object _arg)
+    {
+        int intCountdown = (int)Gameclock.instance.GetCountdown();
+        if (intCountdown >= 1)
+        {
+            countdownText.text = intCountdown.ToString();
+        }
+        else
+        {
+            countdownText.text = "GO!";
+        }
+        
+    }
+
+    private void VanishCountdownPanel(object _arg)
+    {
+        countdownPanel.SetActive(false);
     }
 }

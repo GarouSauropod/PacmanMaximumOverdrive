@@ -27,16 +27,27 @@ public class Gameclock : MonoBehaviour
     [SerializeField]
     float timeFactor = 1f;
 
+    float freezeTimer = 0f;
+    bool timerFrozen = false;
+
     //add timekeeping
 
-    void Start()
+    void Awake()
     {
-        GameEventManager.StartListening("onPlayerGameOver", StopClock);
+        
     }
 
     void Update()
     {
-        
+        if (timerFrozen)
+        {
+            freezeTimer -= Time.deltaTime;
+            GameEventManager.TriggerEvent("onCountdownUpdated");
+            if (freezeTimer <= 0f)
+            {
+                UnfreezeTimer();
+            }
+        }
     }
 
     public float GetTimeFactor()
@@ -44,8 +55,29 @@ public class Gameclock : MonoBehaviour
         return timeFactor;
     }
 
-    private void StopClock(object _arg) //Change this so it's called by the gameLoopController
+    public void StopClock()
     {
         timeFactor = 0f;
     }
+
+    public void FreezeTimerTemporarily(float _timeFrozen)
+    {
+        timeFactor = 0f;
+        timerFrozen = true;
+        freezeTimer = _timeFrozen;
+    }
+
+    public void UnfreezeTimer()
+    {
+        timeFactor = 1f;
+        timerFrozen = false;
+        freezeTimer = 0f;
+        GameEventManager.TriggerEvent("onGameCountdownEnded");
+    }
+
+    public float GetCountdown()
+    {
+        return freezeTimer;
+    }
+
 }
