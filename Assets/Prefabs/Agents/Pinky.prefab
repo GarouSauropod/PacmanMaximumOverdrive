@@ -333,7 +333,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9120868906694509159}
   - component: {fileID: 4314349980374328187}
-  - component: {fileID: 3408860564169354811}
+  - component: {fileID: 3217489301508607386}
   m_Layer: 0
   m_Name: Pinky
   m_TagString: Untagged
@@ -373,7 +373,7 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 2
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3408860564169354811
+--- !u!114 &3217489301508607386
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -382,6 +382,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 8916403322406984843}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 203e1762a50fc4a42a66e864c39e7a6a, type: 3}
+  m_Script: {fileID: 11500000, guid: 4a26d44e1507e8e4bad97f6f5d47a4fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

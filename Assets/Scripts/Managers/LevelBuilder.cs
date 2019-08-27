@@ -36,9 +36,15 @@ public class LevelBuilder : MonoBehaviour
     LevelProp foodPellet;
 
     [SerializeField]
-    GameObject pacman;
+    GameObject pacmanTemplate;
     [SerializeField]
-    GameObject blinky;
+    GameObject blinkyTemplate;
+    [SerializeField]
+    GameObject pinkyTemplate;
+    [SerializeField]
+    GameObject inkyTemplate;
+    [SerializeField]
+    GameObject clydeTemplate;
 
     private LevelRepository levelRepository = new LevelRepository();
 
@@ -71,22 +77,33 @@ public class LevelBuilder : MonoBehaviour
                 case '□': boardManager.AddPropToGrid(barrier, new IntVector2(x, y)); x += 1;
                     break;
                 case '*': boardManager.AddPropToGrid(foodPellet, new IntVector2(x, y)); x += 1;
+                    GameLoopController.instance.IncrementTotalPelletCount();
                     break;
-                case '0': boardManager.AddPacmanToGrid(pacman, new IntVector2(x, y)); x += 1;
+                case '0': boardManager.AddPacmanToGrid(pacmanTemplate, new IntVector2(x, y)); x += 1;
                     break;
-                case '1': boardManager.AddGhostToGrid(blinky, new IntVector2(x, y)); x += 1;
+                case '1': boardManager.AddGhostToGrid(1, blinkyTemplate, new IntVector2(x, y)); x += 1;
                     break;
-                case 'A': boardManager.AddGhostCornerToGrid(new IntVector2(x, y));
+                case '2': boardManager.AddGhostToGrid(2, pinkyTemplate, new IntVector2(x, y)); x += 1;
+                    break;
+                case '3': boardManager.AddGhostToGrid(3, inkyTemplate, new IntVector2(x, y)); x += 1;
+                    break;
+                case '4': boardManager.AddGhostToGrid(4, clydeTemplate, new IntVector2(x, y)); x += 1;
+                    break;
+                case 'A': boardManager.AddGhostCornerToGrid(1, new IntVector2(x, y));
                     boardManager.AddPropToGrid(foodPellet, new IntVector2(x, y)); x += 1;
+                    GameLoopController.instance.IncrementTotalPelletCount();
                     break;
-                case 'B':
+                case 'B': boardManager.AddGhostCornerToGrid(2, new IntVector2(x, y));
                     boardManager.AddPropToGrid(foodPellet, new IntVector2(x, y)); x += 1;
+                    GameLoopController.instance.IncrementTotalPelletCount();
                     break;
-                case 'C':
+                case 'C': boardManager.AddGhostCornerToGrid(3, new IntVector2(x, y));
                     boardManager.AddPropToGrid(foodPellet, new IntVector2(x, y)); x += 1;
+                    GameLoopController.instance.IncrementTotalPelletCount();
                     break;
-                case 'D':
+                case 'D': boardManager.AddGhostCornerToGrid(4, new IntVector2(x, y));
                     boardManager.AddPropToGrid(foodPellet, new IntVector2(x, y)); x += 1;
+                    GameLoopController.instance.IncrementTotalPelletCount();
                     break;
                 default:
                     break;

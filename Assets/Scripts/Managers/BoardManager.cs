@@ -81,16 +81,38 @@ public class BoardManager : MonoBehaviour
         pacman.GetComponent<PlayerController>().Initialize(referenceSquare);
     }
 
-    public void AddGhostToGrid(GameObject _blinky, IntVector2 _position)
+    public void AddGhostToGrid(int _ghostID, GameObject _ghost, IntVector2 _position)
     {
         Square referenceSquare = grid.squareArray[_position.x, _position.y];
-        blinky = Instantiate(_blinky, referenceSquare.position + new Vector3(0f, 0.5f, 0f), Quaternion.identity, dynamicObjects);
-        blinky.GetComponent<Ghost>().Initialize(referenceSquare);
+        if (_ghostID == 1)
+        {
+            blinky = Instantiate(_ghost, referenceSquare.position + new Vector3(0f, 0.5f, 0f), Quaternion.identity, dynamicObjects);
+            blinky.GetComponent<Blinky>().Initialize(referenceSquare);
+        }
+        else if (_ghostID == 2)
+        {
+            pinky = Instantiate(_ghost, referenceSquare.position + new Vector3(0f, 0.5f, 0f), Quaternion.identity, dynamicObjects);
+            pinky.GetComponent<Pinky>().Initialize(referenceSquare);
+        }
+        else if (_ghostID == 3)
+        {
+            inky = Instantiate(_ghost, referenceSquare.position + new Vector3(0f, 0.5f, 0f), Quaternion.identity, dynamicObjects);
+            inky.GetComponent<Inky>().Initialize(referenceSquare);
+        }
+        else if (_ghostID == 4)
+        {
+            clyde = Instantiate(_ghost, referenceSquare.position + new Vector3(0f, 0.5f, 0f), Quaternion.identity, dynamicObjects);
+            clyde.GetComponent<Ghost>().Initialize(referenceSquare);
+        }
+
     }
 
-    public void AddGhostCornerToGrid(IntVector2 _position)
+    public void AddGhostCornerToGrid(int _ghostCorner, IntVector2 _position)
     {
-        blinkysCorner = grid.squareArray[_position.x, _position.y];
+        if (_ghostCorner == 1) { blinkysCorner = grid.squareArray[_position.x, _position.y]; }
+        else if (_ghostCorner == 2) { pinkysCorner = grid.squareArray[_position.x, _position.y]; }
+        else if (_ghostCorner == 3) { inkysCorner = grid.squareArray[_position.x, _position.y]; }
+        else if (_ghostCorner == 4) { clydesCorner = grid.squareArray[_position.x, _position.y]; }
     }
 
     public Square GetPacmanSquare()

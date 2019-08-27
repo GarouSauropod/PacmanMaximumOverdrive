@@ -5,24 +5,28 @@ using GridUtilities;
 
 public class Ghost : MonoBehaviour
 {
-    bool inHoldingPen;
-    Path path;
-    Square currentSquare;
-    Square targetSquare;
-    Square primeObjective;
+    protected bool inHoldingPen;
+    protected Path path;
+    protected Square currentSquare;
+    protected Square targetSquare;
+    protected Square primeObjective;
 
-    float speed = 2.5f;
-    float step;
+    protected float speed = 2.5f;
+    protected float step;
 
-    public void Initialize(Square _initialSquare)
+    public virtual void Initialize(Square _initialSquare)
     {
         currentSquare = _initialSquare;
         targetSquare = _initialSquare;
         CalculatePath(currentSquare, targetSquare);
+
+        GameEventManager.StartListening("onGhostPenOpen", OpenPen);
     }
 
     void Update()
     {
+        if (inHoldingPen) { return; }
+
         if (path.squareList.Count > 0)
         {
             targetSquare = path.squareList[0];
@@ -48,15 +52,19 @@ public class Ghost : MonoBehaviour
         return false;
     }
 
-    public void CalculatePath(Square _start, Square _destination)
+    public virtual void CalculatePath(Square _start, Square _destination)
     {
-        //path = PathFinder.Instance.FindPath(_start, _destination);
         path = PathFinder.Instance.FindPathAStar(BoardManager.instance.grid ,_start, _destination);
     }
 
     private void UpdatePrimeObjective()
     {
         primeObjective = BoardManager.instance.GetPacmanSquare();
+    }
+
+    private void OpenPen(object _arg)
+    {
+        inHoldingPen = false;
     }
 
     void OnCollisionEnter(Collision _other)
