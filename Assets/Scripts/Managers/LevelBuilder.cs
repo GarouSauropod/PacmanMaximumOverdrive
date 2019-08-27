@@ -76,6 +76,18 @@ public class LevelBuilder : MonoBehaviour
                     break;
                 case '1': boardManager.AddGhostToGrid(blinky, new IntVector2(x, y)); x += 1;
                     break;
+                case 'A': boardManager.AddGhostCornerToGrid(new IntVector2(x, y));
+                    boardManager.AddPropToGrid(foodPellet, new IntVector2(x, y)); x += 1;
+                    break;
+                case 'B':
+                    boardManager.AddPropToGrid(foodPellet, new IntVector2(x, y)); x += 1;
+                    break;
+                case 'C':
+                    boardManager.AddPropToGrid(foodPellet, new IntVector2(x, y)); x += 1;
+                    break;
+                case 'D':
+                    boardManager.AddPropToGrid(foodPellet, new IntVector2(x, y)); x += 1;
+                    break;
                 default:
                     break;
             }
