@@ -19,12 +19,13 @@ public class PlayerController : MonoBehaviour
     public void Initialize(Square _initialSquare)
     {
         currentTile = _initialSquare;
+        GameEventManager.StartListening("onGhostCatchingPlayer", Death);
     }
 	
 	void Update()
     {
-        axisXTranslation = Input.GetAxis("Horizontal") * moveSpeed * Time.deltaTime;
-        axisZTranslation = Input.GetAxis("Vertical") * moveSpeed * Time.deltaTime;
+        axisXTranslation = Input.GetAxis("Horizontal") * moveSpeed * Time.deltaTime * Gameclock.instance.GetTimeFactor();
+        axisZTranslation = Input.GetAxis("Vertical") * moveSpeed * Time.deltaTime * Gameclock.instance.GetTimeFactor();
 
         movementVector = new Vector3(axisXTranslation, 0, axisZTranslation);
 
@@ -64,6 +65,12 @@ public class PlayerController : MonoBehaviour
     public Square GetCurrentSquare()
     {
         return currentTile;
+    }
+
+    private void Death(object _arg)
+    {
+        Debug.Log("Player has died");
+        GameEventManager.TriggerEvent("onPlayerGameOver");
     }
 
     //Add collision detection with obstacles so pacman doesn't try to interpenetrate barriers

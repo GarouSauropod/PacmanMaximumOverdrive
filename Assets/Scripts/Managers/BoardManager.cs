@@ -46,6 +46,14 @@ public class BoardManager : MonoBehaviour
     private List<GameObject> instantiatedLevelPieces = new List<GameObject>();
     private GameObject pacman;
     private GameObject blinky;
+    private GameObject pinky;
+    private GameObject inky;
+    private GameObject clyde;
+
+    private Square blinkysCorner;
+    private Square pinkysCorner;
+    private Square inkysCorner;
+    private Square clydesCorner;
 
     void Awake()
     {
@@ -78,6 +86,11 @@ public class BoardManager : MonoBehaviour
         Square referenceSquare = grid.squareArray[_position.x, _position.y];
         blinky = Instantiate(_blinky, referenceSquare.position + new Vector3(0f, 0.5f, 0f), Quaternion.identity, dynamicObjects);
         blinky.GetComponent<Ghost>().Initialize(referenceSquare);
+    }
+
+    public void AddGhostCornerToGrid(IntVector2 _position)
+    {
+        blinkysCorner = grid.squareArray[_position.x, _position.y];
     }
 
     public Square GetPacmanSquare()

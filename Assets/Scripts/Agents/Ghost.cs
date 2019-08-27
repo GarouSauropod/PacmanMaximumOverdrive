@@ -28,13 +28,13 @@ public class Ghost : MonoBehaviour
             targetSquare = path.squareList[0];
         }
 
-        step = speed * Time.deltaTime;
+        step = speed * Time.deltaTime * Gameclock.instance.GetTimeFactor();
         transform.position = Vector3.MoveTowards(transform.position, new Vector3(targetSquare.position.x, transform.position.y, targetSquare.position.z), step);
 
         if (HasReachedCenterSquare(targetSquare))
         {
             currentSquare = targetSquare;
-            primeObjective = BoardManager.instance.GetPacmanSquare();
+            UpdatePrimeObjective();
             CalculatePath(currentSquare, primeObjective);
         }
     }
@@ -52,6 +52,19 @@ public class Ghost : MonoBehaviour
     {
         //path = PathFinder.Instance.FindPath(_start, _destination);
         path = PathFinder.Instance.FindPathAStar(BoardManager.instance.grid ,_start, _destination);
+    }
+
+    private void UpdatePrimeObjective()
+    {
+        primeObjective = BoardManager.instance.GetPacmanSquare();
+    }
+
+    void OnCollisionEnter(Collision _other)
+    {
+        if (_other.gameObject.tag == "Player")
+        {
+            GameEventManager.TriggerEvent("onGhostCatchingPlayer");
+        }
     }
 
 }
